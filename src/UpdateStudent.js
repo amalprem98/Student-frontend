@@ -1,17 +1,18 @@
 import React,{useState} from 'react';
-
+import { useParams } from 'react-router-dom';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
 function UpdateStudent(){
-    const [id,setId]=useState('')
+    const { id } = useParams();
     const [name,setName]=useState('');
     const [email,setEmail]=useState('');
     const navigate=useNavigate();
 
     function handleSubmit(event){
+        console.log("Check"+id)
         event.preventDefault()
-        axios.put('http://localhost:8081/update'+id,{name,email})
+        axios.put(`http://localhost:8081/update/${id}`,{name,email,id})
         .then(res=>{
             console.log(res);
             navigate('/');
@@ -22,12 +23,6 @@ function UpdateStudent(){
             <div className='w-50 bg-white rounded p-3'>
             <form onSubmit={handleSubmit}>
                 <h2>Update Student</h2>
-                <div className='mb-2'>
-                    <label htmlFor="">ID</label>
-                    <input type="text" placeholder='Enter ID' className='form-control'
-                    onChange={e=>setId(e.target.value)}
-                    />
-                </div>
                 <div className='mb-2'>
                     <label htmlFor="">NAME</label>
                     <input type="text" placeholder='Enter Name' className='form-control'
